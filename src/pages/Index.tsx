@@ -73,34 +73,46 @@ const Index = () => {
       <div className="container mx-auto px-4 py-6 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Bell className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold">Zen Notify Me</h1>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="p-3 rounded-full bg-gradient-to-r from-primary to-accent shadow-lg">
+              <Bell className="h-8 w-8 text-primary-foreground" />
+            </div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Zen Notify Me
+            </h1>
           </div>
-          <p className="text-muted-foreground">Your mindful reminder companion</p>
+          <p className="text-muted-foreground text-lg">Your mindful reminder companion</p>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="text-center p-4 bg-muted/50 rounded-lg">
-            <Clock className="h-6 w-6 mx-auto mb-2 text-blue-500" />
-            <div className="text-2xl font-bold">{stats.pending}</div>
-            <div className="text-xs text-muted-foreground">Pending</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="text-center p-6 bg-card border rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/20 w-fit mx-auto mb-3">
+              <Clock className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+            </div>
+            <div className="text-2xl font-bold text-foreground">{stats.pending}</div>
+            <div className="text-sm text-muted-foreground">Pending</div>
           </div>
-          <div className="text-center p-4 bg-muted/50 rounded-lg">
-            <CheckCircle2 className="h-6 w-6 mx-auto mb-2 text-green-500" />
-            <div className="text-2xl font-bold">{stats.completed}</div>
-            <div className="text-xs text-muted-foreground">Completed</div>
+          <div className="text-center p-6 bg-card border rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <div className="p-2 rounded-full bg-green-100 dark:bg-green-900/20 w-fit mx-auto mb-3">
+              <CheckCircle2 className="h-6 w-6 text-green-600 dark:text-green-400" />
+            </div>
+            <div className="text-2xl font-bold text-foreground">{stats.completed}</div>
+            <div className="text-sm text-muted-foreground">Completed</div>
           </div>
-          <div className="text-center p-4 bg-muted/50 rounded-lg">
-            <Calendar className="h-6 w-6 mx-auto mb-2 text-orange-500" />
-            <div className="text-2xl font-bold">{stats.today}</div>
-            <div className="text-xs text-muted-foreground">Today</div>
+          <div className="text-center p-6 bg-card border rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900/20 w-fit mx-auto mb-3">
+              <Calendar className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+            </div>
+            <div className="text-2xl font-bold text-foreground">{stats.today}</div>
+            <div className="text-sm text-muted-foreground">Today</div>
           </div>
-          <div className="text-center p-4 bg-muted/50 rounded-lg">
-            <Bell className="h-6 w-6 mx-auto mb-2 text-red-500" />
-            <div className="text-2xl font-bold">{stats.overdue}</div>
-            <div className="text-xs text-muted-foreground">Overdue</div>
+          <div className="text-center p-6 bg-card border rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <div className="p-2 rounded-full bg-red-100 dark:bg-red-900/20 w-fit mx-auto mb-3">
+              <Bell className="h-6 w-6 text-red-600 dark:text-red-400" />
+            </div>
+            <div className="text-2xl font-bold text-foreground">{stats.overdue}</div>
+            <div className="text-sm text-muted-foreground">Overdue</div>
           </div>
         </div>
 
