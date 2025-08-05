@@ -35,25 +35,25 @@ export const GreetingModal = ({ onNameSet }: GreetingModalProps) => {
       setCurrentQuote(randomQuote);
       setShowQuote(true);
       
-      // Auto minimize after 4 seconds
+      // Auto minimize after 4 seconds with magical effect
       setTimeout(() => {
         setIsMinimizing(true);
         setTimeout(() => {
           onNameSet(name.trim());
-        }, 800);
+        }, 1200);
       }, 4000);
     }
   };
 
   if (showQuote) {
     return (
-      <div className={`fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm transition-all duration-800 ${isMinimizing ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
-        <Card className={`max-w-2xl mx-4 p-8 text-center bg-gradient-to-br from-card via-card to-accent/5 border-accent/20 shadow-2xl transition-all duration-800 ${isMinimizing ? 'transform scale-75 opacity-0' : 'transform scale-100 opacity-100'}`}>
+      <div className={`fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm transition-all duration-1000 ${isMinimizing ? 'opacity-0 backdrop-blur-0' : 'opacity-100'}`}>
+        <Card className={`max-w-2xl mx-4 p-8 text-center bg-gradient-to-br from-card via-card to-accent/5 border-accent/20 shadow-2xl transition-all duration-1200 ease-in-out ${isMinimizing ? 'transform scale-0 rotate-12 translate-y-full translate-x-full opacity-0 blur-sm' : 'transform scale-100 rotate-0 translate-y-0 translate-x-0 opacity-100 blur-0'}`}>
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="p-3 rounded-full bg-gradient-to-r from-primary to-accent shadow-lg">
-              <Sparkles className="h-8 w-8 text-primary-foreground animate-pulse" />
+            <div className={`p-3 rounded-full bg-gradient-to-r from-primary to-accent shadow-lg transition-all duration-1000 ${isMinimizing ? 'animate-spin scale-150' : ''}`}>
+              <Sparkles className={`h-8 w-8 text-primary-foreground transition-all duration-1000 ${isMinimizing ? 'animate-bounce' : 'animate-pulse'}`} />
             </div>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h2 className={`text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent transition-all duration-1000 ${isMinimizing ? 'scale-75 blur-sm' : 'scale-100'}`}>
               Hey {name}!
             </h2>
           </div>
@@ -64,12 +64,12 @@ export const GreetingModal = ({ onNameSet }: GreetingModalProps) => {
               <span className="text-sm font-medium uppercase tracking-wider">Time Wisdom</span>
             </div>
             
-            <p className="text-lg leading-relaxed text-foreground/90">
+            <p className={`text-lg leading-relaxed text-foreground/90 transition-all duration-1000 ${isMinimizing ? 'scale-90 opacity-50' : 'scale-100 opacity-100'}`}>
               <span className="font-semibold text-primary">Hey {name}</span>, {currentQuote}
             </p>
             
             <div className="flex justify-center pt-4">
-              <div className="h-1 w-24 bg-gradient-to-r from-primary to-accent rounded-full"></div>
+              <div className={`h-1 w-24 bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-1000 ${isMinimizing ? 'w-0 opacity-0' : 'w-24 opacity-100'}`}></div>
             </div>
           </div>
         </Card>
