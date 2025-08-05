@@ -98,9 +98,22 @@ const Index = () => {
             <div className="p-3 rounded-full bg-gradient-to-r from-primary to-accent shadow-lg">
               <Bell className="h-8 w-8 text-primary-foreground" />
             </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Zen Notify Me
-            </h1>
+            <div className="flex flex-col items-center gap-2">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Zen Notify Me
+              </h1>
+              {userName && (
+                <p className="text-sm text-muted-foreground">
+                  Welcome back, {userName}! 
+                  <button 
+                    onClick={() => setShowGreeting(true)} 
+                    className="ml-2 text-primary hover:text-accent underline"
+                  >
+                    Change name
+                  </button>
+                </p>
+              )}
+            </div>
           </div>
           <p className="text-muted-foreground text-lg">Your mindful reminder companion</p>
         </div>
