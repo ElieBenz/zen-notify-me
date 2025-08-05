@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { AddReminderForm } from '@/components/AddReminderForm';
 import { ReminderCard } from '@/components/ReminderCard';
+import { GreetingModal } from '@/components/GreetingModal';
 import { useReminders } from '@/hooks/useReminders';
 import { useNotifications } from '@/hooks/useNotifications';
 import { Button } from '@/components/ui/button';
@@ -13,6 +14,23 @@ const Index = () => {
   const { reminders, addReminder, deleteReminder, toggleComplete } = useReminders();
   const { scheduleNotification, cancelNotification } = useNotifications();
   const [activeTab, setActiveTab] = useState('all');
+  const [userName, setUserName] = useState<string | null>(null);
+  const [showGreeting, setShowGreeting] = useState(false);
+
+  useEffect(() => {
+    const storedName = localStorage.getItem('zen-notify-username');
+    if (storedName) {
+      setUserName(storedName);
+    } else {
+      setShowGreeting(true);
+    }
+  }, []);
+
+  const handleNameSet = (name: string) => {
+    setUserName(name);
+    localStorage.setItem('zen-notify-username', name);
+    setShowGreeting(false);
+  };
 
   const handleAddReminder = async (reminderData: Parameters<typeof addReminder>[0]) => {
     const newReminder = addReminder(reminderData);
@@ -69,8 +87,11 @@ const Index = () => {
   }, [reminders]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-6 max-w-4xl">
+    <>
+      {showGreeting && <GreetingModal onNameSet={handleNameSet} />}
+      
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-6 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
@@ -182,8 +203,9 @@ const Index = () => {
             )}
           </TabsContent>
         </Tabs>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
