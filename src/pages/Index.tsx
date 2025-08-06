@@ -16,20 +16,33 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [userName, setUserName] = useState<string | null>(null);
   const [showGreeting, setShowGreeting] = useState(false);
+  const [backgroundQuote, setBackgroundQuote] = useState<string | null>(null);
+  const [showQuoteAnimation, setShowQuoteAnimation] = useState(false);
 
   useEffect(() => {
     const storedName = localStorage.getItem('zen-notify-username');
+    const storedQuote = localStorage.getItem('zen-notify-quote');
     if (storedName) {
       setUserName(storedName);
+      if (storedQuote) {
+        setBackgroundQuote(storedQuote);
+      }
     } else {
       setShowGreeting(true);
     }
   }, []);
 
-  const handleNameSet = (name: string) => {
+  const handleNameSet = (name: string, quote: string) => {
     setUserName(name);
+    setBackgroundQuote(quote);
     localStorage.setItem('zen-notify-username', name);
+    localStorage.setItem('zen-notify-quote', quote);
     setShowGreeting(false);
+    
+    // Trigger the flying animation
+    setTimeout(() => {
+      setShowQuoteAnimation(true);
+    }, 100);
   };
 
   const handleAddReminder = async (reminderData: Parameters<typeof addReminder>[0]) => {
@@ -90,8 +103,19 @@ const Index = () => {
     <>
       {showGreeting && <GreetingModal onNameSet={handleNameSet} />}
       
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-6 max-w-4xl">
+      <div className="min-h-screen bg-background relative overflow-hidden">
+        {/* Background Quote */}
+        {backgroundQuote && (
+          <div className={`fixed inset-0 pointer-events-none z-0 transition-all duration-1000 ${showQuoteAnimation ? 'opacity-20' : 'opacity-0'}`}>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-4xl text-center">
+              <p className="text-6xl md:text-8xl font-bold text-primary/10 leading-tight px-8 animate-pulse">
+                "{backgroundQuote}"
+              </p>
+            </div>
+          </div>
+        )}
+        
+        <div className="container mx-auto px-4 py-6 max-w-4xl relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
