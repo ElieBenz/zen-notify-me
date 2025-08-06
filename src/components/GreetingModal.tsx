@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Clock, Sparkles, User } from 'lucide-react';
 
 interface GreetingModalProps {
-  onNameSet: (name: string, quote: string) => void;
+  onNameSet: (name: string) => void;
 }
 
 const timeQuotes = [
@@ -39,7 +39,7 @@ export const GreetingModal = ({ onNameSet }: GreetingModalProps) => {
       setTimeout(() => {
         setIsMinimizing(true);
         setTimeout(() => {
-          onNameSet(name.trim(), randomQuote);
+          onNameSet(name.trim());
         }, 1200);
       }, 4000);
     }

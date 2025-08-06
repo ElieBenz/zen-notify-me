@@ -1,7 +1,6 @@
-
 import { useState, useMemo, useEffect } from 'react';
 import { AddReminderForm } from '@/components/AddReminderForm';
-import ReminderCard from '@/components/ReminderCard';
+import { ReminderCard } from '@/components/ReminderCard';
 import { GreetingModal } from '@/components/GreetingModal';
 import { useReminders } from '@/hooks/useReminders';
 import { useNotifications } from '@/hooks/useNotifications';
@@ -17,33 +16,20 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [userName, setUserName] = useState<string | null>(null);
   const [showGreeting, setShowGreeting] = useState(false);
-  const [backgroundQuote, setBackgroundQuote] = useState<string | null>(null);
-  const [showQuoteAnimation, setShowQuoteAnimation] = useState(false);
 
   useEffect(() => {
     const storedName = localStorage.getItem('zen-notify-username');
-    const storedQuote = localStorage.getItem('zen-notify-quote');
     if (storedName) {
       setUserName(storedName);
-      if (storedQuote) {
-        setBackgroundQuote(storedQuote);
-      }
     } else {
       setShowGreeting(true);
     }
   }, []);
 
-  const handleNameSet = (name: string, quote: string) => {
+  const handleNameSet = (name: string) => {
     setUserName(name);
-    setBackgroundQuote(quote);
     localStorage.setItem('zen-notify-username', name);
-    localStorage.setItem('zen-notify-quote', quote);
     setShowGreeting(false);
-    
-    // Trigger the flying animation
-    setTimeout(() => {
-      setShowQuoteAnimation(true);
-    }, 100);
   };
 
   const handleAddReminder = async (reminderData: Parameters<typeof addReminder>[0]) => {
@@ -104,41 +90,17 @@ const Index = () => {
     <>
       {showGreeting && <GreetingModal onNameSet={handleNameSet} />}
       
-      <div className="min-h-screen bg-background relative overflow-hidden">
-        {/* Background Quote */}
-        {backgroundQuote && (
-          <div className={`fixed inset-0 pointer-events-none z-0 transition-all duration-1000 ${showQuoteAnimation ? 'opacity-20' : 'opacity-0'}`}>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-4xl text-center">
-              <p className="text-6xl md:text-8xl font-bold text-primary/10 leading-tight px-8 animate-pulse">
-                "{backgroundQuote}"
-              </p>
-            </div>
-          </div>
-        )}
-        
-        <div className="container mx-auto px-4 py-6 max-w-4xl relative z-10">
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-6 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="p-3 rounded-full bg-gradient-to-r from-primary to-accent shadow-lg">
               <Bell className="h-8 w-8 text-primary-foreground" />
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Zen Notify Me
-              </h1>
-              {userName && (
-                <p className="text-sm text-muted-foreground">
-                  Welcome back, {userName}! 
-                  <button 
-                    onClick={() => setShowGreeting(true)} 
-                    className="ml-2 text-primary hover:text-accent underline"
-                  >
-                    Change name
-                  </button>
-                </p>
-              )}
-            </div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Zen Notify Me
+            </h1>
           </div>
           <p className="text-muted-foreground text-lg">Your mindful reminder companion</p>
         </div>
