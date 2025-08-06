@@ -1,6 +1,7 @@
+
 import { useState, useMemo, useEffect } from 'react';
 import { AddReminderForm } from '@/components/AddReminderForm';
-import { ReminderCard } from '@/components/ReminderCard';
+import ReminderCard from '@/components/ReminderCard';
 import { GreetingModal } from '@/components/GreetingModal';
 import { useReminders } from '@/hooks/useReminders';
 import { useNotifications } from '@/hooks/useNotifications';
