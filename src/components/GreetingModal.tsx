@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { Clock, Sparkles, User } from 'lucide-react';
+import { Sparkles, User } from 'lucide-react';
 
 interface GreetingModalProps {
   onNameSet: (name: string) => void;
@@ -24,62 +25,18 @@ const timeQuotes = [
 
 export const GreetingModal = ({ onNameSet }: GreetingModalProps) => {
   const [name, setName] = useState('');
-  const [showQuote, setShowQuote] = useState(false);
-  const [currentQuote, setCurrentQuote] = useState('');
-  const [isMinimizing, setIsMinimizing] = useState(false);
+  const [currentQuote] = useState(() => timeQuotes[Math.floor(Math.random() * timeQuotes.length)]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim()) {
-      const randomQuote = timeQuotes[Math.floor(Math.random() * timeQuotes.length)];
-      setCurrentQuote(randomQuote);
-      setShowQuote(true);
-      
-      // Auto minimize after 4 seconds with magical effect
-      setTimeout(() => {
-        setIsMinimizing(true);
-        setTimeout(() => {
-          onNameSet(name.trim());
-        }, 1200);
-      }, 4000);
+      onNameSet(name.trim());
     }
   };
 
-  if (showQuote) {
-    return (
-      <div className={`fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm transition-all duration-1000 ${isMinimizing ? 'opacity-0 backdrop-blur-0' : 'opacity-100'}`}>
-        <Card className={`max-w-2xl mx-4 p-8 text-center bg-gradient-to-br from-card via-card to-accent/5 border-accent/20 shadow-2xl transition-all duration-1200 ease-in-out ${isMinimizing ? 'transform scale-0 rotate-12 translate-y-full translate-x-full opacity-0 blur-sm' : 'transform scale-100 rotate-0 translate-y-0 translate-x-0 opacity-100 blur-0'}`}>
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className={`p-3 rounded-full bg-gradient-to-r from-primary to-accent shadow-lg transition-all duration-1000 ${isMinimizing ? 'animate-spin scale-150' : ''}`}>
-              <Sparkles className={`h-8 w-8 text-primary-foreground transition-all duration-1000 ${isMinimizing ? 'animate-bounce' : 'animate-pulse'}`} />
-            </div>
-            <h2 className={`text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent transition-all duration-1000 ${isMinimizing ? 'scale-75 blur-sm' : 'scale-100'}`}>
-              Hey {name}!
-            </h2>
-          </div>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-center gap-2 text-accent">
-              <Clock className="h-5 w-5" />
-              <span className="text-sm font-medium uppercase tracking-wider">Time Wisdom</span>
-            </div>
-            
-            <p className={`text-lg leading-relaxed text-foreground/90 transition-all duration-1000 ${isMinimizing ? 'scale-90 opacity-50' : 'scale-100 opacity-100'}`}>
-              <span className="font-semibold text-primary">Hey {name}</span>, {currentQuote}
-            </p>
-            
-            <div className="flex justify-center pt-4">
-              <div className={`h-1 w-24 bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-1000 ${isMinimizing ? 'w-0 opacity-0' : 'w-24 opacity-100'}`}></div>
-            </div>
-          </div>
-        </Card>
-      </div>
-    );
-  }
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm animate-in fade-in duration-500">
-      <Card className="max-w-md mx-4 p-8 bg-gradient-to-br from-card via-card to-primary/5 border-primary/20 shadow-2xl animate-in slide-in-from-bottom-4 duration-700">
+      <Card className="max-w-lg mx-4 p-8 bg-gradient-to-br from-card via-card to-primary/5 border-primary/20 shadow-2xl animate-in slide-in-from-bottom-4 duration-700">
         <div className="text-center mb-6">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="p-3 rounded-full bg-gradient-to-r from-primary to-accent shadow-lg">
@@ -90,6 +47,18 @@ export const GreetingModal = ({ onNameSet }: GreetingModalProps) => {
             </h2>
           </div>
           <p className="text-muted-foreground">What should we call you?</p>
+        </div>
+        
+        {/* Inspirational Quote Section */}
+        <div className="mb-8 p-6 rounded-lg bg-gradient-to-r from-accent/10 to-primary/10 border border-accent/20">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <Sparkles className="h-4 w-4 text-accent animate-pulse" />
+            <span className="text-sm font-medium text-accent uppercase tracking-wider">Time Wisdom</span>
+            <Sparkles className="h-4 w-4 text-accent animate-pulse" />
+          </div>
+          <p className="text-center text-foreground/90 leading-relaxed italic">
+            {currentQuote}
+          </p>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -111,7 +80,7 @@ export const GreetingModal = ({ onNameSet }: GreetingModalProps) => {
             className="w-full h-12 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
             disabled={!name.trim()}
           >
-            Continue
+            Get Started
           </Button>
         </form>
       </Card>
